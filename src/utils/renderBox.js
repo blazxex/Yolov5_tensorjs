@@ -1,4 +1,5 @@
 import labels from "./labels.json";
+let lastCallTimestamp = 0;
 
 /**
  * Render prediction boxes
@@ -17,6 +18,15 @@ export const renderBoxes = (
   classes_data,
   ratios
 ) => {
+  const currentTimestamp = performance.now();
+
+  if (lastCallTimestamp !== 0) {
+    const timeDifference = currentTimestamp - lastCallTimestamp;
+    console.log(`Time since last call: ${timeDifference} milliseconds`);
+  }
+  // Update the last call timestamp
+  lastCallTimestamp = currentTimestamp;
+
   const ctx = canvasRef.getContext("2d");
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // clean canvas
 
